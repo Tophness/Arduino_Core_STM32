@@ -16,8 +16,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#if defined (USBCON) && defined(USBD_USE_CDC)
+#include "usbd_ep_conf.h"
 
+#if defined (USBCON) && defined(USBD_USE_CDC_CLASS)
+
+#include "USB.h"
 #include "USBSerial.h"
 #include "usbd_cdc.h"
 #include "usbd_cdc_if.h"
@@ -32,7 +35,7 @@ void serialEventUSB() __attribute__((weak));
 
 void USBSerial::begin(void)
 {
-  CDC_init();
+  USBDevice.begin();
 }
 
 void USBSerial::begin(uint32_t /* baud_count */)
@@ -49,7 +52,7 @@ void USBSerial::begin(uint32_t /* baud_count */, uint8_t /* config */)
 
 void USBSerial::end()
 {
-  CDC_deInit();
+  USBDevice.end();
 }
 
 int USBSerial::availableForWrite()
